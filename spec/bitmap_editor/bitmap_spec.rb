@@ -68,6 +68,112 @@ RSpec.describe BitmapEditor::Bitmap do
     end
   end
 
+  describe '#vertical_line' do
+    context 'with valid bounds' do
+      it 'sets the pixels on column X to the color' do
+        subject.vertical_line 2, 1, 2, 'R'
+        expect(subject.instance_variable_get "@cells").to eq ([["0" ,"0", "0"], ["R" ,"R", "0"], ["0" ,"0", "0"]])
+      end
+    end
+
+    context 'with an invalid row' do
+      it 'does not change any pixels' do
+        subject.vertical_line 10, 1, 2, 'R'
+        expect(subject.instance_variable_get "@cells").to eq([["0"] * 3] * 3)
+      end
+
+      it 'returns false' do
+        expect(subject.vertical_line 10, 1, 2, 'R').to be_falsey
+      end
+    end
+
+    context 'with an invalid start_column' do
+      it 'does not change any pixels' do
+        subject.vertical_line 2, -1, 2, 'R'
+        expect(subject.instance_variable_get "@cells").to eq([["0"] * 3] * 3)
+      end
+
+      it 'returns false' do
+        expect(subject.vertical_line 2, -1, 2, 'R').to be_falsey
+      end
+    end
+
+    context 'with an invalid end_column' do
+      it 'does not change any pixels' do
+        subject.vertical_line 2, 1, 20, 'R'
+        expect(subject.instance_variable_get "@cells").to eq([["0"] * 3] * 3)
+      end
+
+      it 'returns false' do
+        expect(subject.vertical_line 2, 1, 20, 'R').to be_falsey
+      end
+    end
+
+    context 'start_column is larger than end_column' do
+      it 'does not change any pixels' do
+        subject.vertical_line 2, 2, 1, 'R'
+        expect(subject.instance_variable_get "@cells").to eq([["0"] * 3] * 3)
+      end
+
+      it 'returns false' do
+        expect(subject.vertical_line 2, 2, 1, 'R').to be_falsey
+      end
+    end
+  end
+
+  describe '#horizontal_line' do
+    context 'with valid bounds' do
+      it 'sets the pixels on column X to the color' do
+        subject.horizontal_line 2, 2, 3, 'R'
+        expect(subject.instance_variable_get "@cells").to eq ([["0" ,"0", "0"], ["0" ,"R", "0"], ["0" ,"R", "0"]])
+      end
+    end
+
+    context 'with an invalid column' do
+      it 'does not change any pixels' do
+        subject.horizontal_line 20, 2, 3, 'R'
+        expect(subject.instance_variable_get "@cells").to eq([["0"] * 3] * 3)
+      end
+
+      it 'returns false' do
+        expect(subject.horizontal_line 20, 1, 2, 'R').to be_falsey
+      end
+    end
+
+    context 'with an invalid start_row' do
+      it 'does not change any pixels' do
+        subject.horizontal_line 2, 0, 3, 'R'
+        expect(subject.instance_variable_get "@cells").to eq([["0"] * 3] * 3)
+      end
+
+      it 'returns false' do
+        expect(subject.horizontal_line 2, 0, 3, 'R').to be_falsey
+      end
+    end
+
+    context 'with an invalid end_row' do
+      it 'does not change any pixels' do
+        subject.horizontal_line 2, 2, 4, 'R'
+        expect(subject.instance_variable_get "@cells").to eq([["0"] * 3] * 3)
+      end
+
+      it 'returns false' do
+        expect(subject.horizontal_line 2, 2, 4, 'R').to be_falsey
+      end
+    end
+
+    context 'start_row is larger than end_row' do
+      it 'does not change any pixels' do
+        subject.horizontal_line 2, 3, 2, 'R'
+        expect(subject.instance_variable_get "@cells").to eq([["0"] * 3] * 3)
+      end
+
+      it 'returns false' do
+        expect(subject.horizontal_line 2, 3, 2, 'R').to be_falsey
+      end
+    end
+  end
+
   describe '#valid?' do
     context 'when the Bitmap is valid' do
       it 'returns true' do

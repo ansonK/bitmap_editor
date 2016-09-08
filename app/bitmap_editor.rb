@@ -23,6 +23,10 @@ class BitmapEditor
         clear_bitmap
       when /L (\d+) (\d+) ([A-Z])/
         set_color $1, $2, $3
+      when /V (\d+) (\d+) (\d+) ([A-Z])/
+        vertical_line $1, $2, $3, $4
+      when /H (\d+) (\d+) (\d+) ([A-Z])/
+        horizontal_line $3, $1, $2, $4
       when '?'
         show_help
       when 'X'
@@ -53,6 +57,18 @@ class BitmapEditor
   def set_color(row, column, color)
     with_bitmap do |bitmap|
       bitmap.set_color row, column, color
+    end
+  end
+
+  def vertical_line(row, start_column, end_column, color)
+    with_bitmap do |bitmap|
+      bitmap.vertical_line row, start_column, end_column, color
+    end
+  end
+
+  def horizontal_line(column, start_row, end_row, color)
+    with_bitmap do |bitmap|
+      bitmap.horizontal_line column, start_row, end_row, color
     end
   end
 

@@ -30,11 +30,30 @@ class BitmapEditor
     end
 
     def set_color(row, column, color)
-      if valid_row_index?(row) && valid_column_index?(column)
-        @cells[row-1][column-1] = color
-      else
-        false
+      return false unless valid_row_index?(row) && valid_column_index?(column)
+
+      @cells[row-1][column-1] = color
+      true
+    end
+
+    def vertical_line(row, start_column, end_column, color)
+      return false unless valid_row_index?(row) && valid_column_indices?(start_column, end_column)
+
+      (start_column-1..end_column-1).each do |column_index|
+        @cells[row-1][column_index] = color
       end
+
+      true
+    end
+
+    def horizontal_line(column, start_row, end_row, color)
+      return false unless valid_column_index?(column) && valid_row_indices?(start_row, end_row)
+
+      (start_row-1..end_row-1).each do |row_index|
+        @cells[row_index][column-1] = color
+      end
+
+      true
     end
 
     private
@@ -49,6 +68,18 @@ class BitmapEditor
 
     def valid_column_index?(column)
       column.between?(1,height)
+    end
+
+    def valid_column_indices?(start_column, end_column)
+      valid_column_index?(start_column) &&
+      valid_column_index?(end_column) &&
+      start_column <= end_column
+    end
+
+    def valid_row_indices?(start_row, end_row)
+      valid_row_index?(start_row) &&
+      valid_row_index?(end_row) &&
+      start_row <= end_row
     end
   end
 end

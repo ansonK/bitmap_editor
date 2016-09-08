@@ -54,6 +54,36 @@ RSpec.describe BitmapEditor do
       end
     end
 
+    context 'input is V 2 1 2 R' do
+      let(:command) { 'V 2 1 2 R' }
+
+      it_behaves_like 'a command that requires a bitmap'
+
+      it 'draws a vertical line' do
+        bitmap = double()
+        allow(bitmap).to receive(:vertical_line)
+
+        subject.execute_input command, bitmap: bitmap
+
+        expect(bitmap).to have_received(:vertical_line).with('2', '1', '2','R')
+      end
+    end
+
+    context 'input is H 3 2 3 R' do
+      let(:command) { 'H 3 2 3 R' }
+
+      it_behaves_like 'a command that requires a bitmap'
+
+      it 'draws a horizontal line' do
+        bitmap = double()
+        allow(bitmap).to receive(:horizontal_line)
+
+        subject.execute_input command, bitmap: bitmap
+
+        expect(bitmap).to have_received(:horizontal_line).with('3', '3', '2', 'R')
+      end
+    end
+
     context 'input is ?' do
       it 'prints the help text' do
         expect { subject.execute_input '?' }.to output(subject.help_text).to_stdout
