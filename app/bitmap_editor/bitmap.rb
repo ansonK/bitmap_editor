@@ -8,7 +8,7 @@ class BitmapEditor
 
     def initialize(width, height)
       @width, @height = Integer(width), Integer(height)
-      @cells = initialize_cells if valid?
+      clear
     end
 
     def valid?
@@ -23,6 +23,10 @@ class BitmapEditor
 
     def print_errors
       errors.join "\n"
+    end
+
+    def clear
+      @cells = initialize_cells if valid?
     end
 
     private

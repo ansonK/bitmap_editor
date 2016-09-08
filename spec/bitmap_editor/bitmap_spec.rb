@@ -16,6 +16,26 @@ RSpec.describe BitmapEditor::Bitmap do
     end
   end
 
+  describe '#clear' do
+    context 'when valid?' do
+      it 'sets the cells to be \'0\'' do
+        subject.instance_variable_set "@cells", nil
+        subject.clear
+        expect(subject.instance_variable_get "@cells").to eq([["0"] * 3] * 3)
+      end
+    end
+
+    context 'when invalid' do
+      subject { described_class.new 0, 0 }
+
+      it 'does not change the cells' do
+        subject.instance_variable_set "@cells", nil
+        subject.clear
+        expect(subject.instance_variable_get "@cells").to be_nil
+      end
+    end
+  end
+
   describe '#valid?' do
     context 'when the Bitmap is valid' do
       it 'returns true' do

@@ -2,7 +2,7 @@ require_relative 'bitmap_editor/bitmap'
 
 class BitmapEditor
 
-  attr_reader :running, :bitmap, :interactive
+  attr_reader :running, :bitmap
 
   def run
     @running = true
@@ -13,10 +13,14 @@ class BitmapEditor
     end
   end
 
-  def execute_input(input)
+  def execute_input(input, bitmap: nil)
+    @bitmap = bitmap if bitmap
+
     case input
       when /I (\d+) (\d+)/
         create_new_bitmap $1, $2
+      when 'C'
+        clear_bitmap
       when '?'
         show_help
       when 'X'
@@ -38,6 +42,12 @@ class BitmapEditor
     end
   end
 
+  def clear_bitmap
+    with_bitmap do |bitmap|
+      bitmap.clear
+    end
+  end
+
   def unrecognised_command
     puts "Unrecognised command\n\n"
     show_help
@@ -50,6 +60,14 @@ class BitmapEditor
 
   def show_help
     puts help_text
+  end
+
+  def with_bitmap(&block)
+    if @bitmap
+      yield @bitmap
+    else
+      puts "Error: No Image has been created - please create an Image first"
+    end
   end
 
   public
