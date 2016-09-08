@@ -1,5 +1,4 @@
-require_relative '../../app/bitmap_editor'
-require_relative '../../app/bitmap_editor/bitmap'
+require_relative '../app/bitmap_editor'
 
 RSpec.describe BitmapEditor do
   subject { described_class.new }

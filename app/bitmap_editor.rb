@@ -1,3 +1,5 @@
+require_relative 'bitmap_editor/bitmap'
+
 class BitmapEditor
 
   attr_reader :running, :bitmap, :interactive
@@ -27,7 +29,13 @@ class BitmapEditor
   private
 
   def create_new_bitmap(width, height)
-    @bitmap = Bitmap.new width, height
+    bitmap = Bitmap.new(width, height)
+
+    if bitmap.valid?
+      @bitmap = bitmap
+    else
+      puts 'Error: ' + bitmap.print_errors
+    end
   end
 
   def unrecognised_command
