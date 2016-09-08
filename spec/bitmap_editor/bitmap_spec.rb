@@ -36,6 +36,38 @@ RSpec.describe BitmapEditor::Bitmap do
     end
   end
 
+  describe '#set_color' do
+    context 'width and height are valid' do
+      it 'sets that pixel to the color' do
+        subject.set_color 2, 2, 'R'
+
+        expect(subject.instance_variable_get "@cells").to eq ([["0" ,"0", "0"], ["0" ,"R", "0"], ["0" ,"0", "0"]])
+      end
+    end
+
+    context 'width is invalid' do
+      it 'does not change the pixel' do
+        subject.set_color 4, 2, 'R'
+        expect(subject.instance_variable_get "@cells").to eq([["0"] * 3] * 3)
+      end
+
+      it 'returns false' do
+        expect(subject.set_color 4, 2, 'R').to be_falsey
+      end
+    end
+
+    context 'height is invalid' do
+      it 'does not change the pixel' do
+        subject.set_color 2, 4, 'R'
+        expect(subject.instance_variable_get "@cells").to eq([["0"] * 3] * 3)
+      end
+
+      it 'returns false' do
+        expect(subject.set_color 2, 4, 'R').to be_falsey
+      end
+    end
+  end
+
   describe '#valid?' do
     context 'when the Bitmap is valid' do
       it 'returns true' do

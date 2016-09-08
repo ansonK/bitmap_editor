@@ -21,6 +21,8 @@ class BitmapEditor
         create_new_bitmap $1, $2
       when 'C'
         clear_bitmap
+      when /L (\d+) (\d+) ([A-Z])/
+        set_color $1, $2, $3
       when '?'
         show_help
       when 'X'
@@ -45,6 +47,12 @@ class BitmapEditor
   def clear_bitmap
     with_bitmap do |bitmap|
       bitmap.clear
+    end
+  end
+
+  def set_color(row, column, color)
+    with_bitmap do |bitmap|
+      bitmap.set_color row, column, color
     end
   end
 

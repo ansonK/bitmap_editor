@@ -39,6 +39,21 @@ RSpec.describe BitmapEditor do
       end
     end
 
+    context 'input is L 2 2 R' do
+      let(:command) { 'L 2 2 R' }
+
+      it_behaves_like 'a command that requires a bitmap'
+
+      it 'colors that pixel on the bitmap' do
+        bitmap = double()
+        allow(bitmap).to receive(:set_color)
+
+        subject.execute_input command, bitmap: bitmap
+
+        expect(bitmap).to have_received(:set_color).with('2', '2', 'R')
+      end
+    end
+
     context 'input is ?' do
       it 'prints the help text' do
         expect { subject.execute_input '?' }.to output(subject.help_text).to_stdout

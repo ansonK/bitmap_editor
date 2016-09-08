@@ -29,10 +29,26 @@ class BitmapEditor
       @cells = initialize_cells if valid?
     end
 
+    def set_color(row, column, color)
+      if valid_row_index?(row) && valid_column_index?(column)
+        @cells[row-1][column-1] = color
+      else
+        false
+      end
+    end
+
     private
 
     def initialize_cells
       Array.new(width) { Array.new(height) { "0" } }
+    end
+
+    def valid_row_index?(row)
+      row.between?(1,width)
+    end
+
+    def valid_column_index?(column)
+      column.between?(1,height)
     end
   end
 end
