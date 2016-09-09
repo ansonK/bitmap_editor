@@ -18,15 +18,15 @@ class BitmapEditor
 
     case input
       when /I (\d+) (\d+)/
-        create_new_bitmap $1, $2
+        create_new_bitmap Integer($1), Integer($2)
       when 'C'
         clear_bitmap
       when /L (\d+) (\d+) ([A-Z])/
-        set_color $1, $2, $3
+        set_color Integer($1), Integer($2), $3
       when /V (\d+) (\d+) (\d+) ([A-Z])/
-        vertical_line $1, $2, $3, $4
+        vertical_line Integer($1), Integer($2), Integer($3), $4
       when /H (\d+) (\d+) (\d+) ([A-Z])/
-        horizontal_line $3, $1, $2, $4
+        horizontal_line Integer($3), Integer($1), Integer($2), $4
       when '?'
         show_help
       when 'X'

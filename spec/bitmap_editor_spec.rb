@@ -11,7 +11,7 @@ RSpec.describe BitmapEditor do
       end
 
       it 'calls create_new_bitmap with the width and height' do
-        expect(subject).to have_received(:create_new_bitmap).with('30', '42')
+        expect(subject).to have_received(:create_new_bitmap).with(30, 42)
       end
 
       it 'creates a new BitMap' do
@@ -50,7 +50,7 @@ RSpec.describe BitmapEditor do
 
         subject.execute_input command, bitmap: bitmap
 
-        expect(bitmap).to have_received(:set_color).with('2', '2', 'R')
+        expect(bitmap).to have_received(:set_color).with(2, 2, 'R')
       end
     end
 
@@ -65,7 +65,7 @@ RSpec.describe BitmapEditor do
 
         subject.execute_input command, bitmap: bitmap
 
-        expect(bitmap).to have_received(:vertical_line).with('2', '1', '2','R')
+        expect(bitmap).to have_received(:vertical_line).with(2, 1, 2, 'R')
       end
     end
 
@@ -80,7 +80,7 @@ RSpec.describe BitmapEditor do
 
         subject.execute_input command, bitmap: bitmap
 
-        expect(bitmap).to have_received(:horizontal_line).with('3', '3', '2', 'R')
+        expect(bitmap).to have_received(:horizontal_line).with(3, 3, 2, 'R')
       end
     end
 
