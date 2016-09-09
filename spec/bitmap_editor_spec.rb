@@ -46,12 +46,22 @@ RSpec.describe BitmapEditor do
 
       it_behaves_like 'a command that requires a bitmap'
 
-      it 'colors that pixel on the bitmap' do
-        allow(bitmap).to receive(:set_color)
+      describe 'with valid coordinates' do
+        it 'colors that pixel on the bitmap' do
+          allow(bitmap).to receive(:set_color).and_return true
 
-        subject.execute_input command
+          subject.execute_input command
 
-        expect(bitmap).to have_received(:set_color).with(2, 2, 'R')
+          expect(bitmap).to have_received(:set_color).with(2, 2, 'R')
+        end
+      end
+
+      describe 'with invalid coordinates' do
+        it 'prints an error message' do
+          allow(bitmap).to receive(:set_color).and_return false
+
+          expect { subject.execute_input command }.to output("Error: that is not a valid pixel\n").to_stdout
+        end
       end
     end
 
@@ -61,12 +71,22 @@ RSpec.describe BitmapEditor do
 
       it_behaves_like 'a command that requires a bitmap'
 
-      it 'draws a vertical line' do
-        allow(bitmap).to receive(:vertical_line)
+      describe 'with valid coordinates' do
+        it 'draws a vertical line' do
+          allow(bitmap).to receive(:vertical_line).and_return true
 
-        subject.execute_input command
+          subject.execute_input command
 
-        expect(bitmap).to have_received(:vertical_line).with(2, 1, 2, 'R')
+          expect(bitmap).to have_received(:vertical_line).with(2, 1, 2, 'R')
+        end
+      end
+
+      describe 'with invalid coordinates' do
+        it 'prints an error message' do
+          allow(bitmap).to receive(:vertical_line).and_return false
+
+          expect { subject.execute_input command }.to output("Error: those coordinates are not valid\n").to_stdout
+        end
       end
     end
 
@@ -76,12 +96,22 @@ RSpec.describe BitmapEditor do
 
       it_behaves_like 'a command that requires a bitmap'
 
-      it 'draws a horizontal line' do
-        allow(bitmap).to receive(:horizontal_line)
+      describe 'with valid coordinates' do
+        it 'draws a horizontal line' do
+          allow(bitmap).to receive(:horizontal_line).and_return true
 
-        subject.execute_input command
+          subject.execute_input command
 
-        expect(bitmap).to have_received(:horizontal_line).with(3, 3, 2, 'R')
+          expect(bitmap).to have_received(:horizontal_line).with(3, 3, 2, 'R')
+        end
+      end
+
+      describe 'with invalid coordinates' do
+        it 'prints an error message' do
+          allow(bitmap).to receive(:horizontal_line).and_return false
+
+          expect { subject.execute_input command }.to output("Error: those coordinates are not valid\n").to_stdout
+        end
       end
     end
 

@@ -60,19 +60,19 @@ class BitmapEditor
 
   def set_color(row, column, color)
     with_bitmap do |bitmap|
-      bitmap.set_color row, column, color
+      puts 'Error: that is not a valid pixel' unless bitmap.set_color row, column, color
     end
   end
 
   def vertical_line(row, start_column, end_column, color)
     with_bitmap do |bitmap|
-      bitmap.vertical_line row, start_column, end_column, color
+      puts 'Error: those coordinates are not valid' unless bitmap.vertical_line row, start_column, end_column, color
     end
   end
 
   def horizontal_line(column, start_row, end_row, color)
     with_bitmap do |bitmap|
-      bitmap.horizontal_line column, start_row, end_row, color
+      puts 'Error: those coordinates are not valid' unless bitmap.horizontal_line column, start_row, end_row, color
     end
   end
 
