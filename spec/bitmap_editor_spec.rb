@@ -12,7 +12,7 @@ RSpec.describe BitmapEditor do
       end
 
       it 'calls create_new_bitmap with the width and height' do
-        expect(subject).to have_received(:create_new_bitmap).with(30, 42)
+        expect(subject).to have_received(:create_new_bitmap).with(width: 30, height: 42)
       end
 
       it 'creates a new BitMap' do

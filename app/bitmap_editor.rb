@@ -19,22 +19,31 @@ class BitmapEditor
 
   def execute_input(input)
     case input
+
       when /I (\d+) (\d+)/
-        create_new_bitmap Integer($1), Integer($2)
+        create_new_bitmap width: Integer($1), height: Integer($2)
+
       when 'C'
         clear_bitmap
+
       when /L (\d+) (\d+) ([A-Z])/
-        set_color Integer($1), Integer($2), $3
+        set_color row: Integer($1), column: Integer($2), color: $3
+
       when /V (\d+) (\d+) (\d+) ([A-Z])/
-        vertical_line Integer($1), Integer($2), Integer($3), $4
+        vertical_line row: Integer($1), start_column: Integer($2), end_column: Integer($3), color: $4
+
       when /H (\d+) (\d+) (\d+) ([A-Z])/
-        horizontal_line Integer($3), Integer($1), Integer($2), $4
+        horizontal_line column: Integer($3), start_row: Integer($1), end_row: Integer($2), color: $4
+
       when 'S'
         print_bitmap
+
       when '?'
         show_help
+
       when 'X'
         exit_console
+
       else
         unrecognised_command
     end
@@ -42,7 +51,7 @@ class BitmapEditor
 
   private
 
-  def create_new_bitmap(width, height)
+  def create_new_bitmap(width:, height:)
     bitmap = Bitmap.new(width, height)
 
     if bitmap.valid?
@@ -58,19 +67,19 @@ class BitmapEditor
     end
   end
 
-  def set_color(row, column, color)
+  def set_color(row:, column:, color:)
     with_bitmap do |bitmap|
       puts 'Error: that is not a valid pixel' unless bitmap.set_color row, column, color
     end
   end
 
-  def vertical_line(row, start_column, end_column, color)
+  def vertical_line(row:, start_column:, end_column:, color:)
     with_bitmap do |bitmap|
       puts 'Error: those coordinates are not valid' unless bitmap.vertical_line row, start_column, end_column, color
     end
   end
 
-  def horizontal_line(column, start_row, end_row, color)
+  def horizontal_line(column:, start_row:, end_row:, color:)
     with_bitmap do |bitmap|
       puts 'Error: those coordinates are not valid' unless bitmap.horizontal_line column, start_row, end_row, color
     end
