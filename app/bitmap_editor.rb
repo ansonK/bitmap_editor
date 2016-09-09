@@ -4,6 +4,10 @@ class BitmapEditor
 
   attr_reader :running, :bitmap
 
+  def initialize(bitmap: nil)
+    @bitmap = bitmap
+  end
+
   def run
     @running = true
     puts "Type ? for Help\n"
@@ -13,9 +17,7 @@ class BitmapEditor
     end
   end
 
-  def execute_input(input, bitmap: nil)
-    @bitmap = bitmap if bitmap
-
+  def execute_input(input)
     case input
       when /I (\d+) (\d+)/
         create_new_bitmap Integer($1), Integer($2)

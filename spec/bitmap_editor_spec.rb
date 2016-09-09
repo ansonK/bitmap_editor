@@ -1,7 +1,8 @@
 require_relative '../app/bitmap_editor'
 
 RSpec.describe BitmapEditor do
-  subject { described_class.new }
+  subject { described_class.new bitmap: bitmap }
+  let(:bitmap) { nil }
 
   describe '#execute_input' do
     context 'input is I 30 42' do
@@ -26,14 +27,14 @@ RSpec.describe BitmapEditor do
 
     context 'input is C' do
       let(:command) { 'C' }
+      let(:bitmap) { double() }
 
       it_behaves_like 'a command that requires a bitmap'
 
       it 'clears the bitmap' do
-        bitmap = double()
         allow(bitmap).to receive(:clear)
 
-        subject.execute_input command, bitmap: bitmap
+        subject.execute_input command
 
         expect(bitmap).to have_received(:clear)
       end
@@ -41,14 +42,14 @@ RSpec.describe BitmapEditor do
 
     context 'input is L 2 2 R' do
       let(:command) { 'L 2 2 R' }
+      let(:bitmap) { double() }
 
       it_behaves_like 'a command that requires a bitmap'
 
       it 'colors that pixel on the bitmap' do
-        bitmap = double()
         allow(bitmap).to receive(:set_color)
 
-        subject.execute_input command, bitmap: bitmap
+        subject.execute_input command
 
         expect(bitmap).to have_received(:set_color).with(2, 2, 'R')
       end
@@ -56,14 +57,14 @@ RSpec.describe BitmapEditor do
 
     context 'input is V 2 1 2 R' do
       let(:command) { 'V 2 1 2 R' }
+      let(:bitmap) { double() }
 
       it_behaves_like 'a command that requires a bitmap'
 
       it 'draws a vertical line' do
-        bitmap = double()
         allow(bitmap).to receive(:vertical_line)
 
-        subject.execute_input command, bitmap: bitmap
+        subject.execute_input command
 
         expect(bitmap).to have_received(:vertical_line).with(2, 1, 2, 'R')
       end
@@ -71,14 +72,14 @@ RSpec.describe BitmapEditor do
 
     context 'input is H 3 2 3 R' do
       let(:command) { 'H 3 2 3 R' }
+      let(:bitmap) { double() }
 
       it_behaves_like 'a command that requires a bitmap'
 
       it 'draws a horizontal line' do
-        bitmap = double()
         allow(bitmap).to receive(:horizontal_line)
 
-        subject.execute_input command, bitmap: bitmap
+        subject.execute_input command
 
         expect(bitmap).to have_received(:horizontal_line).with(3, 3, 2, 'R')
       end
@@ -91,12 +92,17 @@ RSpec.describe BitmapEditor do
     end
 
     context 'input is X' do
-      it 'prints goodbye' do
+      it 'prints goodbye and sets running to false' do
         expect { subject.execute_input 'X' }.to output("Goodbye!\n").to_stdout
       end
 
       it 'sets running to false to exit the app' do
+        # stop output being written to stdout
+        $stdout = StringIO.new
+
         expect { subject.execute_input 'X' }.to change(subject, :running).to(false)
+
+        $stdout = STDOUT
       end
     end
 
