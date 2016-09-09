@@ -4,11 +4,11 @@ class BitmapEditor
     MIN_WIDTH = MIN_HEIGHT = 1
     MAX_WIDTH = MAX_HEIGHT = 250
 
-    attr_reader :width, :height, :errors
+    attr_reader :width, :height, :cells, :errors
 
-    def initialize(width, height)
-      @width, @height = Integer(width), Integer(height)
-      clear
+    def initialize(width, height, cells: nil)
+      @width, @height, @cells = Integer(width), Integer(height), cells
+      clear unless cells
     end
 
     def valid?

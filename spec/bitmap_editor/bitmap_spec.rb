@@ -1,7 +1,8 @@
 require_relative '../../app/bitmap_editor/bitmap'
 
 RSpec.describe BitmapEditor::Bitmap do
-  subject { described_class.new 3, 3 }
+  subject { described_class.new 3, 3, cells: cells }
+  let(:cells) { nil }
 
   let(:blank_cell_array) { [["O"] * 3] * 3 }
 
@@ -14,16 +15,15 @@ RSpec.describe BitmapEditor::Bitmap do
     end
 
     it 'initializes the cells' do
-      expect(subject.instance_variable_get "@cells").to eq blank_cell_array
+      expect(subject.cells).to eq blank_cell_array
     end
   end
 
   describe '#clear' do
     context 'when valid?' do
       it 'sets the cells to be \'O\'' do
-        subject.instance_variable_set "@cells", nil
         subject.clear
-        expect(subject.instance_variable_get "@cells").to eq blank_cell_array
+        expect(subject.cells).to eq blank_cell_array
       end
     end
 
@@ -31,9 +31,8 @@ RSpec.describe BitmapEditor::Bitmap do
       subject { described_class.new 0, 0 }
 
       it 'does not change the cells' do
-        subject.instance_variable_set "@cells", nil
         subject.clear
-        expect(subject.instance_variable_get "@cells").to be_nil
+        expect(subject.cells).to be_nil
       end
     end
   end
@@ -43,14 +42,14 @@ RSpec.describe BitmapEditor::Bitmap do
       it 'sets that pixel to the color' do
         subject.set_color 2, 2, 'R'
 
-        expect(subject.instance_variable_get "@cells").to eq ([["O" ,"O", "O"], ["O" ,"R", "O"], ["O" ,"O", "O"]])
+        expect(subject.cells).to eq ([["O" ,"O", "O"], ["O" ,"R", "O"], ["O" ,"O", "O"]])
       end
     end
 
     context 'width is invalid' do
       it 'does not change the pixel' do
         subject.set_color 4, 2, 'R'
-        expect(subject.instance_variable_get "@cells").to eq blank_cell_array
+        expect(subject.cells).to eq blank_cell_array
       end
 
       it 'returns false' do
@@ -61,7 +60,7 @@ RSpec.describe BitmapEditor::Bitmap do
     context 'height is invalid' do
       it 'does not change the pixel' do
         subject.set_color 2, 4, 'R'
-        expect(subject.instance_variable_get "@cells").to eq blank_cell_array
+        expect(subject.cells).to eq blank_cell_array
       end
 
       it 'returns false' do
@@ -74,14 +73,14 @@ RSpec.describe BitmapEditor::Bitmap do
     context 'with valid bounds' do
       it 'sets the pixels on column X to the color' do
         subject.vertical_line 2, 1, 2, 'R'
-        expect(subject.instance_variable_get "@cells").to eq ([["O" ,"O", "O"], ["R" ,"R", "O"], ["O" ,"O", "O"]])
+        expect(subject.cells).to eq ([["O" ,"O", "O"], ["R" ,"R", "O"], ["O" ,"O", "O"]])
       end
     end
 
     context 'with an invalid row' do
       it 'does not change any pixels' do
         subject.vertical_line 10, 1, 2, 'R'
-        expect(subject.instance_variable_get "@cells").to eq blank_cell_array
+        expect(subject.cells).to eq blank_cell_array
       end
 
       it 'returns false' do
@@ -92,7 +91,7 @@ RSpec.describe BitmapEditor::Bitmap do
     context 'with an invalid start_column' do
       it 'does not change any pixels' do
         subject.vertical_line 2, -1, 2, 'R'
-        expect(subject.instance_variable_get "@cells").to eq blank_cell_array
+        expect(subject.cells).to eq blank_cell_array
       end
 
       it 'returns false' do
@@ -103,7 +102,7 @@ RSpec.describe BitmapEditor::Bitmap do
     context 'with an invalid end_column' do
       it 'does not change any pixels' do
         subject.vertical_line 2, 1, 20, 'R'
-        expect(subject.instance_variable_get "@cells").to eq blank_cell_array
+        expect(subject.cells).to eq blank_cell_array
       end
 
       it 'returns false' do
@@ -114,7 +113,7 @@ RSpec.describe BitmapEditor::Bitmap do
     context 'start_column is larger than end_column' do
       it 'does not change any pixels' do
         subject.vertical_line 2, 2, 1, 'R'
-        expect(subject.instance_variable_get "@cells").to eq blank_cell_array
+        expect(subject.cells).to eq blank_cell_array
       end
 
       it 'returns false' do
@@ -127,14 +126,14 @@ RSpec.describe BitmapEditor::Bitmap do
     context 'with valid bounds' do
       it 'sets the pixels on column X to the color' do
         subject.horizontal_line 2, 2, 3, 'R'
-        expect(subject.instance_variable_get "@cells").to eq ([["O" ,"O", "O"], ["O" ,"R", "O"], ["O" ,"R", "O"]])
+        expect(subject.cells).to eq ([["O" ,"O", "O"], ["O" ,"R", "O"], ["O" ,"R", "O"]])
       end
     end
 
     context 'with an invalid column' do
       it 'does not change any pixels' do
         subject.horizontal_line 20, 2, 3, 'R'
-        expect(subject.instance_variable_get "@cells").to eq blank_cell_array
+        expect(subject.cells).to eq blank_cell_array
       end
 
       it 'returns false' do
@@ -145,7 +144,7 @@ RSpec.describe BitmapEditor::Bitmap do
     context 'with an invalid start_row' do
       it 'does not change any pixels' do
         subject.horizontal_line 2, 0, 3, 'R'
-        expect(subject.instance_variable_get "@cells").to eq blank_cell_array
+        expect(subject.cells).to eq blank_cell_array
       end
 
       it 'returns false' do
@@ -156,7 +155,7 @@ RSpec.describe BitmapEditor::Bitmap do
     context 'with an invalid end_row' do
       it 'does not change any pixels' do
         subject.horizontal_line 2, 2, 4, 'R'
-        expect(subject.instance_variable_get "@cells").to eq blank_cell_array
+        expect(subject.cells).to eq blank_cell_array
       end
 
       it 'returns false' do
@@ -167,7 +166,7 @@ RSpec.describe BitmapEditor::Bitmap do
     context 'start_row is larger than end_row' do
       it 'does not change any pixels' do
         subject.horizontal_line 2, 3, 2, 'R'
-        expect(subject.instance_variable_get "@cells").to eq blank_cell_array
+        expect(subject.cells).to eq blank_cell_array
       end
 
       it 'returns false' do
