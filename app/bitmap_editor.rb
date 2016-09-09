@@ -27,6 +27,8 @@ class BitmapEditor
         vertical_line Integer($1), Integer($2), Integer($3), $4
       when /H (\d+) (\d+) (\d+) ([A-Z])/
         horizontal_line Integer($3), Integer($1), Integer($2), $4
+      when 'S'
+        print_bitmap
       when '?'
         show_help
       when 'X'
@@ -69,6 +71,12 @@ class BitmapEditor
   def horizontal_line(column, start_row, end_row, color)
     with_bitmap do |bitmap|
       bitmap.horizontal_line column, start_row, end_row, color
+    end
+  end
+
+  def print_bitmap
+    with_bitmap do |bitmap|
+      puts bitmap.print
     end
   end
 

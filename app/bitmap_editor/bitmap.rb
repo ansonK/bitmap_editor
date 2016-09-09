@@ -56,10 +56,21 @@ class BitmapEditor
       true
     end
 
+    def print
+      "".tap do |output|
+        (0..@cells[0].length-1).each do |column_index|
+          (0..@cells.length-1).each do |row_index|
+            output << @cells[row_index][column_index]
+          end
+          output << "\n"
+        end
+      end
+    end
+
     private
 
     def initialize_cells
-      Array.new(width) { Array.new(height) { "0" } }
+      Array.new(width) { Array.new(height) { "O" } }
     end
 
     def valid_row_index?(row)
