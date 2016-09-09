@@ -104,8 +104,6 @@ class BitmapEditor
     end
   end
 
-  public
-
   def help_text
     <<~HEREDOC
       Help:

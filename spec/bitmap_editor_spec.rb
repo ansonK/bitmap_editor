@@ -87,7 +87,7 @@ RSpec.describe BitmapEditor do
 
     context 'input is ?' do
       it 'prints the help text' do
-        expect { subject.execute_input '?' }.to output(subject.help_text).to_stdout
+        expect { subject.execute_input '?' }.to output(subject.send :help_text).to_stdout
       end
     end
 
@@ -108,7 +108,9 @@ RSpec.describe BitmapEditor do
 
     context 'with unknown input' do
       it 'prints \'unrecognised command\' and the help' do
-        expected = "Unrecognised command\n\n" + subject.help_text
+        allow(subject).to receive(:help_text).and_return 'this is help text'
+
+        expected = "Unrecognised command\n\nthis is help text\n"
 
         expect { subject.execute_input 'ABC' }.to output(expected).to_stdout
       end
