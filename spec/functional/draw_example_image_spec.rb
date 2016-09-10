@@ -1,4 +1,4 @@
-require_relative '../../app/bitmap_editor'
+require_relative '../../app/editor'
 
 RSpec.describe 'Drawing the example image' do
   describe 'Inputting I 5 6, L 2 3 A, S' do
@@ -27,16 +27,16 @@ OWOOO
     }
 
     it 'prints the expected output' do
-      bitmap_editor = BitmapEditor.new
-      bitmap_editor.execute_input 'I 5 6'
-      bitmap_editor.execute_input 'L 2 3 A'
+      bitmap_editor = Editor.new
+      bitmap_editor.process_input 'I 5 6'
+      bitmap_editor.process_input 'L 2 3 A'
 
-      expect { bitmap_editor.execute_input 'S' }.to output(first_expected_pattern).to_stdout
+      expect { bitmap_editor.process_input 'S' }.to output(first_expected_pattern).to_stdout
 
-      bitmap_editor.execute_input 'V 2 3 6 W'
-      bitmap_editor.execute_input 'H 3 5 2 Z'
+      bitmap_editor.process_input 'V 2 3 6 W'
+      bitmap_editor.process_input 'H 3 5 2 Z'
 
-      expect { bitmap_editor.execute_input 'S' }.to output(second_expected_pattern).to_stdout
+      expect { bitmap_editor.process_input 'S' }.to output(second_expected_pattern).to_stdout
     end
   end
 end
